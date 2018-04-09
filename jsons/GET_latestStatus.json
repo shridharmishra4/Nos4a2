@@ -1,0 +1,14 @@
+{
+    "ModelName": "string",
+    "CurrentFold": "int",
+    "NumFold": "int",
+    "Epoch": "int",
+    "TotalEpochs": "int",
+    "Status": "string",
+    "Time": "datetime",
+    "FinalRound": "string",
+    "TrainLoss": "float",
+    "TrainAccuracy": "float",
+    "TrainAccuracy": "float",
+    "ValidationLoss": "float"
+}

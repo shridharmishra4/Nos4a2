@@ -1,0 +1,12 @@
+{
+    "FileName": "string",
+    "GeneratedAt": "datetime",
+    "Tokens": [
+        {
+            "TokenIndex": "int",
+            "Text": "string",
+            "PredictedTag": "string"
+        }
+    ],
+    "Error": "string"
+}

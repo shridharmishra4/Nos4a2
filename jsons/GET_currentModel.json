@@ -1,0 +1,5 @@
+{
+    "ModelLocation": "string",
+    "ModelTrainTime": "string",
+    "Status": "string"
+}
