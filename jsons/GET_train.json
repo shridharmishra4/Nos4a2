@@ -1,4 +1,4 @@
 {
-    "isInitialized": "bool",
+    "isTrained": "bool",
     "Error": "string"
 }

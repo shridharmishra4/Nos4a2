@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^$', SwaggerSchemaView.as_view()),
     url(r'^imagica/train/', TrainAPIView.as_view(), name="train"),
     url(r'^imagica/initialize/', InitializeAPIView.as_view(), name="initialize"),
-    url(r'^imagica/isInitalized', IsInitializedAPIView.as_view(), name="isInitialized"),
+    url(r'^imagica/isInitialized', IsInitializedAPIView.as_view(), name="isInitialized"),
     url(r'^imagica/currentModel/', CurrentModelAPIView.as_view(), name="currentModel"),
     url(r'^imagica/trainingStatus/', LatestTrainingStatusAPIView.as_view(), name="trainingStatus"),
     url(r'^imagica/rawOutput/FileName/(?P<file_name>[-\w]+)/', ImagicaRawOutputAPIView.as_view(), name="rawOutput"),

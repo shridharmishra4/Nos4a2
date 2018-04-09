@@ -1,7 +1,7 @@
 {
   "FileName": "string",
-  "GeneratedAt": "datetime"
-  "Data":[
+  "GeneratedAt": "datetime",
+  "Data": [
     {
       "ImagicaDealNumber": "int",
       "TRADE_DATE": "string",
@@ -17,6 +17,8 @@
       "MATURITY_DATE": "string",
       "BROKER_FEES": "float",
       "BROKER_FEES_CCY": "string",
+      "CONTRACT": "string",
+      "MARKET": "string"
     }
   ],
   "Error": "string"

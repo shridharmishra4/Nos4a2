@@ -68,29 +68,33 @@ class ImagicaOutputAPIView(APIView):
         Get deals data from Imagica service
 
         **Example Response**
+
                 {
-                  "FileName": "string",
-                  "GeneratedAt": "datetime"
-                  "Data":[
-                    {
-                      "ImagicaDealNumber": "int",
-                      "TRADE_DATE": "string",
-                      "UNDERLYING_NAME": "string",
-                      "CURRENCY": "string",
-                      "INSTRUMENT_NAME": "string",
-                      "EXERCISE_TYPE": "string",
-                      "OPTION_TYPE": "string",
-                      "BUY/SELL": "string",
-                      "PRODUCT_PRICE": "float",
-                      "PRODUCT_QUANTITY": "float",
-                      "STRIKE": "float",
-                      "MATURITY_DATE": "string",
-                      "BROKER_FEES": "float",
-                      "BROKER_FEES_CCY": "string",
-                    }
-                  ],
-                  "Error": "string"
+                    "FileName": "string",
+                    "GeneratedAt": "datetime"
+                    "Data":[
+                        {
+                            "ImagicaDealNumber": "int",
+                            "TRADE_DATE": "string",
+                            "UNDERLYING_NAME": "string",
+                            "CURRENCY": "string",
+                            "INSTRUMENT_NAME": "string",
+                            "EXERCISE_TYPE": "string",
+                            "OPTION_TYPE": "string",
+                            "BUY/SELL": "string",
+                            "PRODUCT_PRICE": "float",
+                            "PRODUCT_QUANTITY": "float",
+                            "STRIKE": "float",
+                            "MATURITY_DATE": "string",
+                            "BROKER_FEES": "float",
+                            "BROKER_FEES_CCY": "string",
+                            "CONTRACT": "string",
+                            "MARKET": "string"
+                        }
+                    ],
+                    "Error": "string"
                 }
+
         """
         return Response({
             "FileName": file_name,
@@ -101,11 +105,12 @@ class ImagicaOutputAPIView(APIView):
 
 
 class ImagicaDetailedOutputAPIView(APIView):
-    def get(self, file_name):
+    def get(self, request, file_name):
         """
         Detailed report of Imagica extracted details from the PDF
 
         **Example Response**
+
                 {
                     "FileName": "string",
                     "GeneratedAt": "datetime",
@@ -124,7 +129,8 @@ class ImagicaDetailedOutputAPIView(APIView):
                                 }
                             ]
                         }
-                    ]
+                    ],
+                    "Error": "string"
                 }
 
         """
@@ -168,27 +174,33 @@ class IsInitializedAPIView(APIView):
                 }
 
         """
-        return Response({})
+        return Response({
+            "isInitialized": False
+        })
 
 
 class TrainAPIView(APIView):
-    def get(self):    
+    def get(self, request):
         """
         Trains the models for classification
 
         **Example Response**
 
                 {
-                    "isInitialized": "bool",
+                    "isTrained": "bool",
                     "Error": "string"     
                 }
 
         """
-        return Response({})
+        return Response({
+            "isTrained": False,
+            "Error": "Training code not written"
+
+        })
 
 
 class CurrentModelAPIView(APIView):
-    def get(self):
+    def get(self, request):
         """
         Returns the time at which the current model training was started
 
@@ -210,6 +222,7 @@ class LatestTrainingStatusAPIView(APIView):
         Gets the status of the last training status
 
         **Example Response**
+
                 {
                     "ModelName": "string",
                     "CurrentFold": "int",
@@ -224,5 +237,6 @@ class LatestTrainingStatusAPIView(APIView):
                     "TrainAccuracy": "float",
                     "ValidationLoss": "float"
                 }
+
         """
         return Response({})
