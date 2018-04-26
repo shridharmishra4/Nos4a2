@@ -1,8 +1,9 @@
+from .services.services_registry import ServiceRegistry
 
 
 class ModelTrainer:
     def __init__(self):
-        pass
+        self.services_registry = ServiceRegistry()
 
     def reload(self):
         pass

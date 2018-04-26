@@ -1,6 +1,10 @@
 {
   "FileName": "string",
   "GeneratedAt": "datetime",
+  "DocumentCreatedAt": "datetime",
+  "NormalizationVersion": "string",
+  "PostProcessingVersion": "string",
+  "ModelVersion": "string",
   "Data":[
     {
       "RecordNumber": "int",
@@ -9,6 +13,7 @@
           "FieldName": "string",
           "FieldValue": "string",
           "FieldType": "string",
+          "TokenIndices": ["int"],
           "Top": "float",
           "Bottom": "float",
           "Left": "float",

@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import sys
+
+
+#sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,8 +35,8 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-	'v1.imagica.apps.ImagicaConfig',
-	
+    'v1.imagica.apps.ImagicaConfig',
+
     'corsheaders',
 
     'django.contrib.admin',
@@ -131,3 +135,4 @@ JSON_EDITOR = True
 STATIC_URL = '/static/'
 
 HOME = os.getcwd()
+sys.path.append(HOME)

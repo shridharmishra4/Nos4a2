@@ -9,6 +9,5 @@
     "FinalRound": "string",
     "TrainLoss": "float",
     "TrainAccuracy": "float",
-    "TrainAccuracy": "float",
     "ValidationLoss": "float"
 }
