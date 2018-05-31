@@ -6,4 +6,4 @@ class ModelTrainer:
         self.services_registry = ServiceRegistry()
 
     def train(self):
-        pass
+        print("Nothing here")

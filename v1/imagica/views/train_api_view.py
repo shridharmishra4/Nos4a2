@@ -16,7 +16,7 @@ class TrainAPIView(APIView):
                 }
 
         """
-        ModelTrainer()
+        ModelTrainer().run()
         return Response({
             "isTrained": False,
             "Error": "Training code not written"
