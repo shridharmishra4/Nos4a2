@@ -1,19 +1,12 @@
 import pika
+
 from pymongo import MongoClient
 
+from v1.imagica.core.model_trainer import ModelTrainer
+from v1.imagica.core.model_loader import ModelLoader
+from v1.imagica.core.post_processor import PostProcessor
+from v1.imagica.core.services.propeties_services import InternalMessageProperties
 
-message_queue_host = "localhost"
-read_exchange_name = "outgoing"
-
-read_routing_keys = {
-    "InitiateTraining": 6,
-    "InitializeModel": 8,
-    "SDFNormalized": 4,
-    "SDFAnnotated": 2,
-    "PostProcessingRulesUpdated": 5,
-    "ReconciliationCompleted": 1,
-    "DocumentClusterGenerated": 0
-}
 
 db_host = "localhost"
 db_port = 27017
@@ -30,33 +23,6 @@ class WriteMessagesToDB:
 
     def write(self, message_type, message):
         self.write_db[message_type].insert_one(message)
-
-
-class PostProcessor:
-    def __init__(self):
-        pass
-
-    def post_process(self, model_output):
-        pass
-
-
-class ModelLoader:
-    def __init__(self):
-        pass
-
-    def load_model(self):
-        pass
-
-    def predict(self):
-        pass
-
-
-class ModelTrainer:
-    def __init__(self):
-        pass
-
-    def train(self):
-        pass
 
 
 class MessageProcessor:
@@ -83,14 +49,15 @@ class MessageProcessor:
 
 class ConsumeMessages:
     def __init__(self):
+        self.config = InternalMessageProperties()
         self.message_processor = MessageProcessor()
-        self.read_connection = pika.BlockingConnection(pika.ConnectionParameters(host=message_queue_host))
+        self.read_connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.config.message_queue_host))
         self.read_channel = self.read_connection.channel()
-        self.read_channel.exchange_declare(exchange=read_exchange_name, exchange_type="direct")
+        self.read_channel.exchange_declare(exchange=self.config.exchange_name, exchange_type="direct")
         read_result = self.read_channel.queue_declare(exclusive=True)
         self.read_queue_name = read_result.method.queue
-        for read_routing_key in read_routing_keys.keys():
-            self.read_channel.queue_bind(exchange=read_exchange_name, queue=self.read_queue_name,
+        for read_routing_key in self.config.outing_keys.keys():
+            self.read_channel.queue_bind(exchange=self.config.exchange_name, queue=self.read_queue_name,
                                          routing_key=read_routing_key)
 
     def callback(self, channel, method, properties, body):

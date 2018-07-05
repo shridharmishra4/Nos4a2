@@ -1,3 +1,0 @@
-
-class PostProcessing:
-    pass

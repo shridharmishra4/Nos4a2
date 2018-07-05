@@ -1,52 +1,37 @@
 import pika
 
-message_queue_host = "localhost"
-read_exchange_name = "incoming"
-write_exchange_name = "outgoing"
-
-read_routing_keys = {
-    "SDFNormalized": 4,
-    "SDFAnnotated": 2,
-    "PostProcessingRules": 5,
-    "ReconciliationCompleted": 1,
-    "DocumentClusterGenerated": 0
-}
-write_routing_keys = {
-    "InitiateTraining": 6,
-    "InitializeModel": 8,
-    "SDFNormalized": 4,
-    "SDFAnnotated": 2,
-    "PostProcessingRules": 5,
-    "ReconciliationCompleted": 1,
-    "DocumentClusterGenerated": 0
-}
+from v1.imagica.core.services.propeties_services import InternalMessageProperties, ExternalMessageProperties
 
 
 class ConsumeMessages:
     def __init__(self):
-        self.read_connection = pika.BlockingConnection(pika.ConnectionParameters(host=message_queue_host))
+        self.read_config = ExternalMessageProperties()
+        self.write_config = InternalMessageProperties()
+
+        self.read_connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.read_config.message_host))
         self.read_channel = self.read_connection.channel()
-        self.read_channel.exchange_declare(exchange=read_exchange_name, exchange_type="direct")
+        self.read_channel.exchange_declare(exchange=self.read_config.exchange_name, exchange_type="direct")
         read_result = self.read_channel.queue_declare(exclusive=True)
         self.read_queue_name = read_result.method.queue
-        for read_routing_key in read_routing_keys.keys():
-            self.read_channel.queue_bind(exchange=read_exchange_name, queue=self.read_queue_name,
+        for read_routing_key in self.read_config.routing_keys.keys():
+            self.read_channel.queue_bind(exchange=self.read_config.exchange_name, queue=self.read_queue_name,
                                          routing_key=read_routing_key)
 
-        self.write_connection = pika.BlockingConnection(pika.ConnectionParameters(host=message_queue_host))
+        self.write_connection = pika.BlockingConnection(pika.ConnectionParameters(host=self.write_config.message_host))
         self.write_channel = self.write_connection.channel()
-        self.write_channel.exchange_declare(exchange=write_exchange_name, exchange_type="direct")
+        self.write_channel.exchange_declare(exchange=self.write_config.exchange_name, exchange_type="direct")
         write_result = self.write_channel.queue_declare(exclusive=True, arguments={"x-max-priority": 10})
         self.write_queue_name = write_result.method.queue
-        for write_routing_key in write_routing_keys.keys():
-            self.write_channel.queue_bind(exchange=write_exchange_name,
+        for write_routing_key in self.write_config.routing_keys.keys():
+            self.write_channel.queue_bind(exchange=self.write_config.exchange_name,
                                           queue=self.write_queue_name,
                                           routing_key=write_routing_key)
 
     def write_to_internal_queues(self, routing_key, body):
-        self.write_channel.basic_publish(exchange=write_exchange_name,
+        self.write_channel.basic_publish(exchange=self.write_config.exchange_name,
                                          routing_key=routing_key,
-                                         properties=pika.BasicProperties(priority=write_routing_keys[routing_key]),
+                                         properties=pika.BasicProperties(
+                                             priority=self.write_config.routing_keys[routing_key]),
                                          body=body)
 
     def callback(self, channel, method, properties, body):

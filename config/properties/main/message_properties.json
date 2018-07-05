@@ -1,0 +1,30 @@
+{
+  "External":{
+    "MQHost": "localhost",
+    "MQPort": 27017,
+    "ExchangeName": "incoming",
+    "RoutingKeys": {
+      "InitiateTraining": 6,
+      "InitializeModel": 8,
+      "SDFNormalized": 4,
+      "SDFAnnotated": 2,
+      "PostProcessingRulesUpdated": 5,
+      "ReconciliationCompleted": 1,
+      "DocumentClusterGenerated": 0
+    }
+  },
+  "Internal": {
+    "MQHost": "localhost",
+    "MQPort": 27017,
+    "ExchangeName": "outgoing",
+    "RoutingKeys": {
+      "InitiateTraining": 6,
+      "InitializeModel": 8,
+      "SDFNormalized": 4,
+      "SDFAnnotated": 2,
+      "PostProcessingRulesUpdated": 5,
+      "ReconciliationCompleted": 1,
+      "DocumentClusterGenerated": 0
+    }
+  }
+}

@@ -136,4 +136,4 @@ class InstancePredictor:
         model_prediction = self.model.predict(document)
         return model_prediction
         #write_to_db()
-        #write_message()
+        #write_message() 
