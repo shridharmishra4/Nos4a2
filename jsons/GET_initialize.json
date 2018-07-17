@@ -1,7 +1,0 @@
-{
-    "isInitialized": "bool",
-    "ModelLocation": "string",
-    "ModelTrainTime": "datetime",
-    "Status": "string",
-    "Error": "string",
-}

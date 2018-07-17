@@ -1,2 +1,0 @@
-class TimeBasedValidationCreator:
-    pass

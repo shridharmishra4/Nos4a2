@@ -1,2 +1,0 @@
-class WordEmbeddingsProperties:
-    pass
