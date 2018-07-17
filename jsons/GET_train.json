@@ -1,0 +1,4 @@
+{
+    "isTrained": "bool",
+    "Error": "string"
+}

@@ -1,0 +1,2 @@
+class StratifiedFormatIdentifiedValidationCreator:
+    pass

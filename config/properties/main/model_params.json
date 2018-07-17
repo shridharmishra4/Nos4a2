@@ -1,0 +1,16 @@
+{
+  "RandomState": 42,
+  "MaxNumWords": 500000,
+  "MaxLen": 700,
+  "MaxCharSize": 20,
+  "BatchSize": 32,
+  "EarlyStoppingRounds": 10,
+  "Iterations": 10,
+  "Dropout": 0.5,
+  "NumFolds": 1,
+  "ModelArchitectureIdentifier": "multi_bilstm",
+  "GPUCount": 2,
+  "LearningRate": 1e-2,
+  "CNNNumFilters": 10,
+  "WindowLength": 3
+}

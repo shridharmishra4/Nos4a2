@@ -1,0 +1,16 @@
+{
+    "FileName": "string",
+    "GeneratedAt": "datetime",
+    "DocumentCreatedAt": "datetime",
+    "NormalizationVersion": "string",
+    "PostProcessingVersion": "string",
+    "ModelVersion": "string",
+    "Tokens": [
+        {
+            "TokenIndex": "int",
+            "Text": "string",
+            "PredictedTag": "string"
+        }
+    ],
+    "Error": "string"
+}
