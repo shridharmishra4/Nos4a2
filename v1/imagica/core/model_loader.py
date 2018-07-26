@@ -8,8 +8,9 @@ import tensorflow as tf
 
 from keras.models import model_from_json
 
-from .pre_processing import PreProcessor
-from .utilities import Utilities
+#from .utilities import Utilities
+from keras.utils import multi_gpu_model
+
 
 parallelize = False
 text_column = None
@@ -37,42 +38,42 @@ class Model:
                                                       self.class_mapping_number_name[tag_column].items()}
         self.num_classes = len(self.class_mapping_number_name[tag_column])
 
-    def predict(self, document):
-
-        input_text = document[text_column]
-        input_text = " ".join(map(str, input_text.values))
-
-        logging.info("Input Sentence: {}".format(input_text))
-
-        word_length = len(input_text.split(' '))
-
-        X_input = self.pre_processor.tokenize_pad_sentences([[input_text]])
-
-        if char_in_model:
-            X_input_char = self.pre_processor.make_X_char([document[char_text_column].tolist()])
-
-        y_pred = None
-
-        for model in self.models:
-            with self.graph.as_default():
-                if char_in_model:
-                    if y_pred is None:
-                        y_pred = model.predict(X_input, X_input_char)
-                    else:
-                        y_pred += model.predict(X_input, X_input_char)
-
-                else:
-                    if y_pred is None:
-                        y_pred = model.predict(X_input)
-                    else:
-                        y_pred += model.predict(X_input)
-
-        y_pred = np.argmax(y_pred, axis=2)
-        y_pred = y_pred.flatten()
-
-        y_pred = y_pred[-word_length:]
-
-        return y_pred
+    # def predict(self, document):
+    #
+    #     input_text = document[text_column]
+    #     input_text = " ".join(map(str, input_text.values))
+    #
+    #     logging.info("Input Sentence: {}".format(input_text))
+    #
+    #     word_length = len(input_text.split(' '))
+    #
+    #     X_input = self.pre_processor.tokenize_pad_sentences([[input_text]])
+    #
+    #     if char_in_model:
+    #         X_input_char = self.pre_processor.make_X_char([document[char_text_column].tolist()])
+    #
+    #     y_pred = None
+    #
+    #     for model in self.models:
+    #         with self.graph.as_default():
+    #             if char_in_model:
+    #                 if y_pred is None:
+    #                     y_pred = model.predict(X_input, X_input_char)
+    #                 else:
+    #                     y_pred += model.predict(X_input, X_input_char)
+    #
+    #             else:
+    #                 if y_pred is None:
+    #                     y_pred = model.predict(X_input)
+    #                 else:
+    #                     y_pred += model.predict(X_input)
+    #
+    #     y_pred = np.argmax(y_pred, axis=2)
+    #     y_pred = y_pred.flatten()
+    #
+    #     y_pred = y_pred[-word_length:]
+    #
+    #     return y_pred
 
 
 class ModelLoader:
@@ -97,7 +98,7 @@ class ModelLoader:
 
         model = model_from_json(model_json)
         if parallelize:
-            model = Utilities.multi_gpu_model(model, 2)
+            model = multi_gpu_model(model, 2)
 
         models = []
         for fold in range(num_folds):
@@ -106,12 +107,17 @@ class ModelLoader:
 
             model.load_weights(model_weights_file)
             models.append(model)
+        try:
 
-        with open(word_tokenizer_pkl, 'rb') as f:
-            word_tokenizer = pkl.load(f)
+            with open(word_tokenizer_pkl, 'rb') as f:
+                word_tokenizer = pkl.load(f)
 
-        with open(word_trainable_tokenizer_pkl, 'rb') as f:
-            word_trainable_tokenizer = pkl.load(f)
+            with open(word_trainable_tokenizer_pkl, 'rb') as f:
+                word_trainable_tokenizer = pkl.load(f)
+        except FileNotFoundError:
+            logging.debug("Error in loading embeddings")
+
+
 
         tokenizers = {
             "Word": word_tokenizer,
@@ -128,12 +134,3 @@ class ModelLoader:
         return model
 
 
-class InstancePredictor:
-    def __init__(self, model):
-        self.model = model
-
-    def prediction(self, document):
-        model_prediction = self.model.predict(document)
-        return model_prediction
-        #write_to_db()
-        #write_message() 
