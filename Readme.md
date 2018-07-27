@@ -1,4 +1,4 @@
-#Imagica
+# Imagica
 
 ### Installation
 

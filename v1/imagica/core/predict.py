@@ -17,6 +17,7 @@ word_trainable_tokenizer_pkl = None
 class InstancePredictor:
     def __init__(self, model):
         self.model = model
+        self.preprocessor = PreProcessor
 
 
     def predict(self, document):
