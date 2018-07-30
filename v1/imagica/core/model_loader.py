@@ -117,8 +117,6 @@ class ModelLoader:
         except FileNotFoundError:
             logging.debug("Error in loading embeddings")
 
-
-
         tokenizers = {
             "Word": word_tokenizer,
             "WordTrainable": word_trainable_tokenizer
